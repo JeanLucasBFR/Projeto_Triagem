@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atendimento Geral</title>
+    <link rel="stylesheet" href="/styles/Atendimento_Geral.css" />
+    <script src="/script/Atendimento_Geral.js"></script>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1 class="titulo">Atendimento</h1>
+
+        <form id="formulario">
+
+            <div class="campo">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" placeholder="Digite seu nome completo">
+            </div>
+
+            <div class="campo">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" placeholder="000.000.000-00">
+            </div>
+
+            <div class="campo">
+                <label for="data">Data de nascimento</label>
+                <input type="date" id="data">
+            </div>
+
+            <div class="campo">
+                <label for="sintomas">Sintomas</label>
+                <textarea id="sintomas" placeholder="Escolha os sintomas..."></textarea>
+            </div>
+
+            <div class="botoes">
+                <button type="button" class="btn voltar" onclick="history.back()">Voltar</button>
+                <button type="submit" class="btn finalizar">Finalizar</button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
+

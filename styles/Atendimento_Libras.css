@@ -1,0 +1,214 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Fundo */
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container */
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    background: #f8fafc;
+    border-radius: 20px;
+    padding: 20px;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Colunas */
+.coluna {
+    border: 2px solid #2563eb;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.esquerda {
+    flex: 2;
+}
+
+.centro,
+.direita {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #94a3b8;
+    text-align: center;
+}
+
+/* Título */
+.titulo {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0f172a;
+}
+
+/* Formulário */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+label {
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+input,
+textarea {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+textarea {
+    height: 120px;
+    resize: none;
+}
+
+/* Método de entrada */
+.metodo p {
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.opcoes-metodo {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.opcao {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #2563eb;
+    background: #eff6ff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.opcao:hover {
+    background: #dbeafe;
+}
+
+/* Campo texto */
+.campo-texto {
+    display: block;
+}
+
+/* Mensagem da câmera */
+.mensagem-camera {
+    display: none;
+    padding: 12px;
+    border-radius: 10px;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Botões */
+.botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.voltar {
+    background: #e2e8f0;
+}
+
+.finalizar {
+    background: #2563eb;
+    color: white;
+}
+
+/* Tela inicial de escolha */
+.escolha {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    text-align: center;
+}
+
+.botoes-escolha {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.botoes-escolha button {
+    padding: 16px 28px;
+    font-size: 18px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.botoes-escolha button:hover {
+    background: #1d4ed8;
+}
+
+/* Agrupamento de cada campo */
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Mensagem de erro */
+.erro {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* Campo com erro */
+input.erro-campo,
+textarea.erro-campo {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.15);
+}
+

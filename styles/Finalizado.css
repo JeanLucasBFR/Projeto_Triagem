@@ -1,0 +1,74 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Fundo */
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Caixa */
+.container {
+    background: #f8fafc;
+    width: 700px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    text-align: center;
+    animation: aparecer 0.6s ease-in-out;
+}
+
+/* Ícone */
+.icone {
+    font-size: 60px;
+    color: #16a34a;
+    margin-bottom: 20px;
+}
+
+/* Título */
+.titulo {
+    margin-bottom: 15px;
+    color: #0f172a;
+}
+
+/* Texto */
+.descricao {
+    color: #475569;
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+/* Botão */
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #0f172a;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #1e293b;
+    transform: scale(1.05);
+}
+
+/* Animação */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
