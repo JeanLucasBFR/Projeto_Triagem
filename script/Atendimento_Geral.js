@@ -2,7 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const form = document.getElementById("formulario");
 
-    form.addEventListener("submit", function (e) {
+    // Adicionado 'async' aqui para permitir a comunicação com o n8n
+    form.addEventListener("submit", async function (e) {
+        
+        e.preventDefault(); // Já bloqueamos o recarregamento padrão logo de cara
 
         let valido = true;
 
@@ -10,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const cpfInput = document.getElementById("cpf");
         const dataInput = document.getElementById("data");
         const sintomasInput = document.getElementById("sintomas");
+        const btnFinalizar = document.querySelector(".btn.finalizar"); // Pegando o botão para mudar o texto depois
 
         // Remove mensagens antigas
         document.querySelectorAll(".erro").forEach(el => el.remove());
@@ -60,15 +64,50 @@ document.addEventListener("DOMContentLoaded", function () {
             valido = false;
         }
 
-        // ===== BLOQUEIA ENVIO =====
-        if (!valido) {
-            e.preventDefault();
-        } else {
-            e.preventDefault(); // impede envio real
-            window.location.href = "Finalizado.html";
+        // ===== SE PASSOU NA VALIDAÇÃO, ENVIA PARA O N8N =====
+        if (valido) {
+            
+            // 1. Monta o pacote de dados
+            const dadosPaciente = {
+                nome: nomeInput.value,
+                cpf: cpfInput.value,
+                data_nascimento: dataInput.value,
+                sintomas: sintomasInput.value
+            };
+
+            // 2. Dá um feedback visual pro usuário não clicar duas vezes
+            const textoOriginalBotao = btnFinalizar.innerText;
+            btnFinalizar.innerText = "Enviando...";
+            btnFinalizar.disabled = true;
+
+            try {
+                // 3. A URL do nosso maestro
+                const n8nUrl = "http://localhost:5678/webhook-test/73e74795-0d25-43ca-9c5c-ea93c761b6d1";
+
+                // 4. Faz o disparo via POST
+                const response = await fetch(n8nUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(dadosPaciente)
+                });
+
+                // 5. Se o n8n der "OK", vai pra tela de finalizado
+                if (response.ok) {
+                    window.location.href = "Finalizado.html";
+                } else {
+                    alert("Erro ao enviar dados para a triagem.");
+                    btnFinalizar.innerText = textoOriginalBotao;
+                    btnFinalizar.disabled = false;
+                }
+
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                alert("Erro de conexão. O n8n está rodando?");
+                btnFinalizar.innerText = textoOriginalBotao;
+                btnFinalizar.disabled = false;
+            }
         }
-
-
     });
-
 });
