@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
             valido = false;
         }
 
-        // Validando os campos de teste para não quebrar o envio
         if (gravidadeInput.value.trim() === "") {
             criarErro(gravidadeInput, "Preencha a gravidade.");
             valido = false;
@@ -73,14 +72,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (valido) {
             
-            // 1. Monta o pacote de dados pegando TUDO do HTML
             const dadosPaciente = {
                 nome: nomeInput.value,
                 cpf: cpfInput.value,
                 data_nascimento: dataInput.value,
                 sintomas: sintomasInput.value,
-                gravidade: gravidadeInput.value, // Vem do seu input
-                senha: senhaInput.value          // Vem do seu input
+                gravidade: gravidadeInput.value,
+                senha: senhaInput.value
             };
 
             const textoOriginalBotao = btnFinalizar.innerText;
@@ -88,13 +86,14 @@ document.addEventListener("DOMContentLoaded", function () {
             btnFinalizar.disabled = true;
 
             try {
-                // 3. A URL do nosso maestro
-                const n8nUrl = "http://localhost:5678/webhook-test/211d627b-34ee-43a9-8454-836db8f4e2ef";
-
+                // URL DO SEU NGROK (Aponta para o seu notebook)
+                const n8nUrl = "https://donte-perinephrial-inappositely.ngrok-free.dev/webhook-test/211d627b-34ee-43a9-8454-836db8f4e2ef";
+                                
                 const response = await fetch(n8nUrl, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "ngrok-skip-browser-warning": "true" // Pula a tela de aviso do ngrok
                     },
                     body: JSON.stringify(dadosPaciente)
                 });
@@ -109,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             } catch (error) {
                 console.error("Erro na requisição:", error);
-                alert("Erro de conexão. O n8n está rodando?");
+                alert("Erro de conexão. O n8n no computador do seu amigo está rodando?");
                 btnFinalizar.innerText = textoOriginalBotao;
                 btnFinalizar.disabled = false;
             }
