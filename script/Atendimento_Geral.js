@@ -2,10 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const form = document.getElementById("formulario");
 
-    // Adicionado 'async' aqui para permitir a comunicação com o n8n
     form.addEventListener("submit", async function (e) {
         
-        e.preventDefault(); // Já bloqueamos o recarregamento padrão logo de cara
+        e.preventDefault(); 
 
         let valido = true;
 
@@ -13,9 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const cpfInput = document.getElementById("cpf");
         const dataInput = document.getElementById("data");
         const sintomasInput = document.getElementById("sintomas");
-        const btnFinalizar = document.querySelector(".btn.finalizar"); // Pegando o botão para mudar o texto depois
+        const gravidadeInput = document.getElementById("gravidade"); 
+        const senhaInput = document.getElementById("senha");         
+        const btnFinalizar = document.querySelector(".btn.finalizar");
 
-        // Remove mensagens antigas
         document.querySelectorAll(".erro").forEach(el => el.remove());
 
         function criarErro(input, mensagem) {
@@ -40,51 +40,57 @@ document.addEventListener("DOMContentLoaded", function () {
             return true;
         }
 
-        // ===== VALIDAR NOME =====
         if (!validarNome(nomeInput.value)) {
             criarErro(nomeInput, "Digite nome e sobrenome válido.");
             valido = false;
         }
 
-        // ===== VALIDAR CPF =====
         if (!validarCPF(cpfInput.value)) {
             criarErro(cpfInput, "CPF inválido.");
             valido = false;
         }
 
-        // ===== VALIDAR DATA =====
         if (!dataInput.value) {
             criarErro(dataInput, "Informe a data de nascimento.");
             valido = false;
         }
 
-        // ===== VALIDAR SINTOMAS =====
         if (sintomasInput.value.trim() === "") {
             criarErro(sintomasInput, "Escolha os sintomas.");
             valido = false;
         }
 
-        // ===== SE PASSOU NA VALIDAÇÃO, ENVIA PARA O N8N =====
+        // Validando os campos de teste para não quebrar o envio
+        if (gravidadeInput.value.trim() === "") {
+            criarErro(gravidadeInput, "Preencha a gravidade.");
+            valido = false;
+        }
+
+        if (senhaInput.value.trim() === "") {
+            criarErro(senhaInput, "Preencha a senha.");
+            valido = false;
+        }
+
         if (valido) {
             
-            // 1. Monta o pacote de dados
+            // 1. Monta o pacote de dados pegando TUDO do HTML
             const dadosPaciente = {
                 nome: nomeInput.value,
                 cpf: cpfInput.value,
                 data_nascimento: dataInput.value,
-                sintomas: sintomasInput.value
+                sintomas: sintomasInput.value,
+                gravidade: gravidadeInput.value, // Vem do seu input
+                senha: senhaInput.value          // Vem do seu input
             };
 
-            // 2. Dá um feedback visual pro usuário não clicar duas vezes
             const textoOriginalBotao = btnFinalizar.innerText;
             btnFinalizar.innerText = "Enviando...";
             btnFinalizar.disabled = true;
 
             try {
-                // 3. A URL do nosso maestro
-                const n8nUrl = "http://localhost:5678/webhook-test/73e74795-0d25-43ca-9c5c-ea93c761b6d1";
+                // URL do n8n
+                const n8nUrl = "http://localhost:5678/webhook-test/211d627b-34ee-43a9-8454-836db8f4e2ef";
 
-                // 4. Faz o disparo via POST
                 const response = await fetch(n8nUrl, {
                     method: "POST",
                     headers: {
@@ -93,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     body: JSON.stringify(dadosPaciente)
                 });
 
-                // 5. Se o n8n der "OK", vai pra tela de finalizado
                 if (response.ok) {
                     window.location.href = "Finalizado.html";
                 } else {
