@@ -88,8 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
             btnFinalizar.disabled = true;
 
             try {
-                // URL do n8n
-                const n8nUrl = "http://localhost:5678/webhook-test/211d627b-34ee-43a9-8454-836db8f4e2ef";
+                // 3. A URL do nosso maestro
+                const n8nUrl = "http://localhost:5678/webhook-test/73e74795-0d25-43ca-9c5c-ea93c761b6d1";
 
                 const response = await fetch(n8nUrl, {
                     method: "POST",
