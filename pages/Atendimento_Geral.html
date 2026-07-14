@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atendimento Geral</title>
     <link rel="stylesheet" href="/styles/Atendimento_Geral.css" />
-    <script src="/script/Atendimento_Geral.js"></script>
+    <script src="/script/Atendimento_Geral.js" defer></script>
 </head>
 <body>
 
@@ -30,28 +30,14 @@
                 <input type="date" id="data">
             </div>
 
-            <!-- tirar os 2 campos dps -->
-            <div class="gravidade">
-                <label for="gravidade">Gravidade</label>
-                <input type="text" id="gravidade">
-            </div>
-
-            <div class="senha">
-                <label for="senha">Senha</label>
-                <input type="text" id="senha">
-            </div>
-            
-            
-
             <div class="campo">
                 <label for="sintomas">Sintomas</label>
-                <textarea id="sintomas" placeholder="Escolha os sintomas..."></textarea>
+                <textarea id="sintomas" placeholder="Descreva os sintomas..."></textarea>
             </div>
 
             <div class="botoes">
                 <button type="button" class="btn voltar" onclick="history.back()">Voltar</button>
                 <button type="submit" class="btn finalizar">Finalizar</button>
-
             </div>
 
         </form>
@@ -60,4 +46,3 @@
 
 </body>
 </html>
-

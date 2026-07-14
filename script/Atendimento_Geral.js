@@ -2,19 +2,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const form = document.getElementById("formulario");
 
+    const nomeInput = document.getElementById("nome");
+    const cpfInput = document.getElementById("cpf");
+    const dataInput = document.getElementById("data");
+    const sintomasInput = document.getElementById("sintomas");
+    const btnFinalizar = document.querySelector(".btn.finalizar");
+
+    // ✅ MÁSCARA DE CPF
+    cpfInput.addEventListener("input", function () {
+        let valor = cpfInput.value;
+
+        valor = valor.replace(/\D/g, "");
+        valor = valor.slice(0, 11);
+
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+        cpfInput.value = valor;
+    });
+
     form.addEventListener("submit", async function (e) {
-        
-        e.preventDefault(); 
 
+        e.preventDefault();
         let valido = true;
-
-        const nomeInput = document.getElementById("nome");
-        const cpfInput = document.getElementById("cpf");
-        const dataInput = document.getElementById("data");
-        const sintomasInput = document.getElementById("sintomas");
-        const gravidadeInput = document.getElementById("gravidade"); 
-        const senhaInput = document.getElementById("senha");         
-        const btnFinalizar = document.querySelector(".btn.finalizar");
 
         document.querySelectorAll(".erro").forEach(el => el.remove());
 
@@ -35,8 +46,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function validarCPF(cpf) {
             cpf = cpf.replace(/[^\d]+/g, '');
+
             if (cpf.length !== 11) return false;
             if (/^(\d)\1+$/.test(cpf)) return false;
+
+            let soma = 0;
+            let resto;
+
+            for (let i = 1; i <= 9; i++)
+                soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+
+            resto = (soma * 10) % 11;
+            if (resto >= 10) resto = 0;
+            if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+            soma = 0;
+            for (let i = 1; i <= 10; i++)
+                soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+
+            resto = (soma * 10) % 11;
+            if (resto >= 10) resto = 0;
+            if (resto !== parseInt(cpf.substring(10, 11))) return false;
+
             return true;
         }
 
@@ -56,29 +87,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (sintomasInput.value.trim() === "") {
-            criarErro(sintomasInput, "Escolha os sintomas.");
-            valido = false;
-        }
-
-        if (gravidadeInput.value.trim() === "") {
-            criarErro(gravidadeInput, "Preencha a gravidade.");
-            valido = false;
-        }
-
-        if (senhaInput.value.trim() === "") {
-            criarErro(senhaInput, "Preencha a senha.");
+            criarErro(sintomasInput, "Descreva os sintomas.");
             valido = false;
         }
 
         if (valido) {
-            
+
             const dadosPaciente = {
                 nome: nomeInput.value,
-                cpf: cpfInput.value,
+                cpf: cpfInput.value.replace(/\D/g, ""),
                 data_nascimento: dataInput.value,
-                sintomas: sintomasInput.value,
-                gravidade: gravidadeInput.value,
-                senha: senhaInput.value
+                sintomas: sintomasInput.value
             };
 
             const textoOriginalBotao = btnFinalizar.innerText;
@@ -86,14 +105,13 @@ document.addEventListener("DOMContentLoaded", function () {
             btnFinalizar.disabled = true;
 
             try {
-                // URL DO SEU NGROK (Aponta para o seu notebook)
                 const n8nUrl = "https://donte-perinephrial-inappositely.ngrok-free.dev/webhook-test/211d627b-34ee-43a9-8454-836db8f4e2ef";
-                                
+
                 const response = await fetch(n8nUrl, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "ngrok-skip-browser-warning": "true" // Pula a tela de aviso do ngrok
+                        "ngrok-skip-browser-warning": "true"
                     },
                     body: JSON.stringify(dadosPaciente)
                 });
@@ -101,14 +119,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response.ok) {
                     window.location.href = "Finalizado.html";
                 } else {
-                    alert("Erro ao enviar dados para a triagem.");
+                    alert("Erro ao enviar dados.");
                     btnFinalizar.innerText = textoOriginalBotao;
                     btnFinalizar.disabled = false;
                 }
 
             } catch (error) {
-                console.error("Erro na requisição:", error);
-                alert("Erro de conexão. O n8n no computador do seu amigo está rodando?");
+                console.error("Erro:", error);
+                alert("Erro de conexão.");
                 btnFinalizar.innerText = textoOriginalBotao;
                 btnFinalizar.disabled = false;
             }

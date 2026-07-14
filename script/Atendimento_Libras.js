@@ -2,15 +2,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const form = document.querySelector(".formulario");
 
+    const nomeInput = document.getElementById("nome");
+    const cpfInput = document.getElementById("cpf");
+    const dataInput = document.getElementById("data");
+    const sintomasInput = document.getElementById("sintomas");
+
+    // ✅ MÁSCARA DE CPF
+    cpfInput.addEventListener("input", function () {
+        let valor = cpfInput.value;
+
+        valor = valor.replace(/\D/g, ""); // remove não números
+        valor = valor.slice(0, 11); // limita a 11 dígitos
+
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+        cpfInput.value = valor;
+    });
+
     form.addEventListener("submit", function (e) {
 
-        e.preventDefault(); // sempre bloqueia envio padrão primeiro
+        e.preventDefault(); 
         let valido = true;
-
-        const nomeInput = document.getElementById("nome");
-        const cpfInput = document.getElementById("cpf");
-        const dataInput = document.getElementById("data");
-        const sintomasInput = document.getElementById("sintomas");
 
         // Remove mensagens antigas
         document.querySelectorAll(".erro").forEach(el => el.remove());
