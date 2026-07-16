@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     cpfInput.addEventListener("input", function () {
         let valor = cpfInput.value;
 
-        valor = valor.replace(/\D/g, ""); // remove não números
-        valor = valor.slice(0, 11); // limita a 11 dígitos
+        valor = valor.replace(/\D/g, "");
+        valor = valor.slice(0, 11);
 
         valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
         valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
@@ -43,11 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
             return partes.length >= 2 && regex.test(nome);
         }
 
+        // ✅ CPF SIMPLIFICADO
         function validarCPF(cpf) {
-            cpf = cpf.replace(/[^\d]+/g, '');
-            if (cpf.length !== 11) return false;
-            if (/^(\d)\1+$/.test(cpf)) return false;
-            return true;
+            cpf = cpf.replace(/\D/g, "");
+            return cpf.length === 11;
         }
 
         // ===== VALIDAR NOME =====
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // ===== VALIDAR CPF =====
         if (!validarCPF(cpfInput.value)) {
-            criarErro(cpfInput, "CPF inválido.");
+            criarErro(cpfInput, "CPF deve ter 11 dígitos.");
             valido = false;
         }
 
