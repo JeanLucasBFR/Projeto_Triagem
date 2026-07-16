@@ -105,13 +105,13 @@ document.addEventListener("DOMContentLoaded", function () {
             btnFinalizar.disabled = true;
 
             try {
-                const n8nUrl = "https://donte-perinephrial-inappositely.ngrok-free.dev/webhook-test/211d627b-34ee-43a9-8454-836db8f4e2ef";
+                // ✅ URL DO WEBHOOK DO MAKE AQUI
+                const makeWebhookUrl = "https://hook.us2.make.com/kz8n4sulmws4bxitvfwpm3ey5mqhvsag";
 
-                const response = await fetch(n8nUrl, {
+                const response = await fetch(makeWebhookUrl, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
-                        "ngrok-skip-browser-warning": "true"
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify(dadosPaciente)
                 });
