@@ -3,24 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("formulario");
 
     const nomeInput = document.getElementById("nome");
-    const cpfInput = document.getElementById("cpf");
+
     const dataInput = document.getElementById("data");
     const sintomasInput = document.getElementById("sintomas");
     const btnFinalizar = document.querySelector(".btn.finalizar");
 
-    // ✅ MÁSCARA DE CPF
-    cpfInput.addEventListener("input", function () {
-        let valor = cpfInput.value;
 
-        valor = valor.replace(/\D/g, "");
-        valor = valor.slice(0, 11);
-
-        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-        valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-
-        cpfInput.value = valor;
-    });
+    
 
     form.addEventListener("submit", async function (e) {
 
@@ -44,21 +33,13 @@ document.addEventListener("DOMContentLoaded", function () {
             return partes.length >= 2 && regex.test(nome);
         }
 
-        // ✅ CPF SIMPLIFICADO (SÓ TAMANHO)
-        function validarCPF(cpf) {
-            cpf = cpf.replace(/\D/g, "");
-            return cpf.length === 11;
-        }
+
 
         if (!validarNome(nomeInput.value)) {
             criarErro(nomeInput, "Digite nome e sobrenome válido.");
             valido = false;
         }
 
-        if (!validarCPF(cpfInput.value)) {
-            criarErro(cpfInput, "CPF deve ter 11 dígitos.");
-            valido = false;
-        }
 
         if (!dataInput.value) {
             criarErro(dataInput, "Informe a data de nascimento.");
@@ -71,12 +52,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (valido) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tipoFila = urlParams.get('tipo') || 'G';
 
             const dadosPaciente = {
                 nome: nomeInput.value,
-                cpf: cpfInput.value.replace(/\D/g, ""),
                 data_nascimento: dataInput.value,
-                sintomas: sintomasInput.value
+                sintomas: sintomasInput.value,
+                tipo: tipoFila
             };
 
             const textoOriginalBotao = btnFinalizar.innerText;

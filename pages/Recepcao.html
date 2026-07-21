@@ -1,39 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Painel Recepção</title>
-  <link rel="stylesheet" href="/styles/Recepcao.css">
-  <script src="/script/Recepcao.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel da Recepção - Triagem</title>
+    <link rel="stylesheet" href="/styles/Recepcao.css" />
+    <!-- Substitua pelo caminho correto do seu JS da recepção -->
+    <script src="/script/Recepcao.js" defer></script> 
 </head>
 <body>
 
-  <div class="container">
+    <header>Controle de Fila - Recepção</header>
 
-    <h1>Painel da Recepção</h1>
+    <div class="area-inferior">
+        
+        <div class="tabela-titulo">
+            <span>&#128337;</span> Pacientes Aguardando
+        </div>
 
-    <!-- SENHA CHAMADA -->
-    <div class="painel-chamada">
-      <h2>Senha Atual</h2>
-      <div id="senhaAtual">---</div>
+        <!-- Adicionada a coluna de AÇÕES -->
+        <div class="grid-header">
+            <div>SENHA</div>
+            <div>NOME</div>
+            <div>GRAVIDADE</div>
+            <div style="text-align: center;">AÇÃO</div> 
+        </div>
+
+        <div class="lista-rolagem" id="lista-pacientes">
+            <!-- A lista será gerada aqui pelo JavaScript -->
+        </div>
+        
     </div>
 
-    <!-- TABELA -->
-    <table>
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Senha</th>
-          <th>Gravidade</th>
-          <th>Ação</th>
-        </tr>
-      </thead>
-
-      <tbody id="lista"></tbody>
-    </table>
-
-  </div>
-
-  
 </body>
 </html>

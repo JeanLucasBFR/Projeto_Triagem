@@ -3,23 +3,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector(".formulario");
 
     const nomeInput = document.getElementById("nome");
-    const cpfInput = document.getElementById("cpf");
     const dataInput = document.getElementById("data");
     const sintomasInput = document.getElementById("sintomas");
 
-    // ✅ MÁSCARA DE CPF
-    cpfInput.addEventListener("input", function () {
-        let valor = cpfInput.value;
-
-        valor = valor.replace(/\D/g, "");
-        valor = valor.slice(0, 11);
-
-        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
-        valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-
-        cpfInput.value = valor;
-    });
+ 
 
     form.addEventListener("submit", function (e) {
 
@@ -43,11 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return partes.length >= 2 && regex.test(nome);
         }
 
-        // ✅ CPF SIMPLIFICADO
-        function validarCPF(cpf) {
-            cpf = cpf.replace(/\D/g, "");
-            return cpf.length === 11;
-        }
+
 
         // ===== VALIDAR NOME =====
         if (!validarNome(nomeInput.value)) {
@@ -55,11 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
             valido = false;
         }
 
-        // ===== VALIDAR CPF =====
-        if (!validarCPF(cpfInput.value)) {
-            criarErro(cpfInput, "CPF deve ter 11 dígitos.");
-            valido = false;
-        }
 
         // ===== VALIDAR DATA =====
         if (!dataInput.value) {
