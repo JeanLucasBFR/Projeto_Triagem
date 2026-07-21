@@ -1,18 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
-
     const form = document.getElementById("formulario");
-
     const nomeInput = document.getElementById("nome");
-
     const dataInput = document.getElementById("data");
     const sintomasInput = document.getElementById("sintomas");
     const btnFinalizar = document.querySelector(".btn.finalizar");
 
-
-    
+    // === CONFIGURAÇÕES DO SUPABASE ===
+    // Cole sua chave Anon/Public aqui
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyZmpuem52ZnJvZmVkbm9leGdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNDUwMDgsImV4cCI6MjA5OTYyMTAwOH0.aYkwoAOjq9WzY8ZId4KvgxZbsBpCZPbUQU6oUjVLkBs"; 
+    // URL da Função que você acabou de dar o deploy
+    const functionUrl = "https://drfjnznvfrofednoexgq.supabase.co/functions/v1/triagem_manchester";
 
     form.addEventListener("submit", async function (e) {
-
         e.preventDefault();
         let valido = true;
 
@@ -33,13 +32,10 @@ document.addEventListener("DOMContentLoaded", function () {
             return partes.length >= 2 && regex.test(nome);
         }
 
-
-
         if (!validarNome(nomeInput.value)) {
             criarErro(nomeInput, "Digite nome e sobrenome válido.");
             valido = false;
         }
-
 
         if (!dataInput.value) {
             criarErro(dataInput, "Informe a data de nascimento.");
@@ -57,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const dadosPaciente = {
                 nome: nomeInput.value,
-                data_nascimento: dataInput.value,
+                dataNasc: dataInput.value, // Certifique-se de que dataInput.value não está vazio
                 sintomas: sintomasInput.value,
                 tipo: tipoFila
             };
@@ -67,12 +63,12 @@ document.addEventListener("DOMContentLoaded", function () {
             btnFinalizar.disabled = true;
 
             try {
-                const makeWebhookUrl = "https://hook.us2.make.com/kz8n4sulmws4bxitvfwpm3ey5mqhvsag";
-
-                const response = await fetch(makeWebhookUrl, {
+                // Requisição apontando para a Edge Function
+                const response = await fetch(functionUrl, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${supabaseAnonKey}`
                     },
                     body: JSON.stringify(dadosPaciente)
                 });
@@ -80,14 +76,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response.ok) {
                     window.location.href = "Finalizado.html";
                 } else {
-                    alert("Erro ao enviar dados.");
+                    // Isso vai capturar o texto exato do erro que a Função devolveu
+                    const erroDoServidor = await response.text(); 
+                    alert("Erro do servidor: " + erroDoServidor);
+                    
                     btnFinalizar.innerText = textoOriginalBotao;
                     btnFinalizar.disabled = false;
                 }
 
             } catch (error) {
                 console.error("Erro:", error);
-                alert("Erro de conexão.");
+                alert("Erro de conexão com o servidor.");
                 btnFinalizar.innerText = textoOriginalBotao;
                 btnFinalizar.disabled = false;
             }

@@ -7,12 +7,6 @@
     <link rel="stylesheet" href="../styles/Finalizado.css">
 </head>
 
-<script>
-    setTimeout(function() {
-        window.location.href = "/index.html";
-    }, 5000); // 5000ms = 5 segundos
-</script>
-
 <body>
 
     <div class="container">
@@ -22,11 +16,28 @@
 
         <p class="descricao">
             Seus dados foram registrados corretamente.<br>
-            Sua senha é -------
+            Sua classificação de risco é: <strong id="senha-atendimento" style="font-size: 1.5em; color: #2c3e50;">Carregando...</strong>
         </p>
-
-
     </div>
+
+    <script>
+        // Pega os parâmetros que vieram na URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const gravidade = urlParams.get('gravidade');
+
+        const elementoSenha = document.getElementById('senha-atendimento');
+        
+        if (gravidade) {
+            elementoSenha.textContent = gravidade.toUpperCase();
+        } else {
+            elementoSenha.textContent = "Registrado com sucesso!";
+        }
+
+        // Redireciona para o início após 6 segundos para dar tempo do usuário ler
+        setTimeout(function() {
+            window.location.href = "/index.html";
+        }, 5000); 
+    </script>
 
 </body>
 </html>
