@@ -16,7 +16,7 @@ async function carregarDadosRecepcao() {
         listaElemento.innerHTML = ""; 
 
         pacientes.forEach(paciente => {
-            const gravidadeTexto = paciente.gravidade || "Comum";
+            const gravidadeTexto = paciente.gravidade || "Verde";
             const gravidadeClass = mapearClasseGravidade(gravidadeTexto);
             
             const htmlRow = `
@@ -38,7 +38,6 @@ async function carregarDadosRecepcao() {
     }
 }
 
-// Quando a recepcionista clica no botão:
 // Quando a recepcionista clica no botão:
 async function chamarPaciente(pacienteId, pacienteNome) {
     if (!confirm(`Chamar o paciente: ${pacienteNome}?`)) return;
@@ -81,10 +80,14 @@ async function chamarPaciente(pacienteId, pacienteNome) {
 }
 
 function mapearClasseGravidade(gravidade) {
-    const g = gravidade.toLowerCase();
-    if (g.includes("urgente")) return "bg-urgente";
-    if (g.includes("preferencial")) return "bg-atencao";
-    return "bg-comum";
+    if (!gravidade) return "bg-verde";
+    const g = gravidade.toLowerCase().trim();
+    
+    if (g.includes("vermelho")) return "bg-vermelho";
+    if (g.includes("laranja")) return "bg-laranja";
+    if (g.includes("amarelo")) return "bg-amarelo";
+    if (g.includes("azul")) return "bg-azul";
+    return "bg-verde"; 
 }
 
 setInterval(carregarDadosRecepcao, 5000);

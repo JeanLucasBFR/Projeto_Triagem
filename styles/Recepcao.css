@@ -9,10 +9,12 @@
     --border-radius: 12px;
     --shadow: 0 4px 15px rgba(0,0,0,0.05);
     
-    /* Cores de Gravidade (Triagem) */
-    --urgente: #dc3545; 
-    --atencao: #ffc107; 
-    --comum: #28a745;   
+    /* Cores do Protocolo de Manchester */
+    --vermelho: #dc2626; 
+    --laranja: #ff9100;  
+    --amarelo: #ffd000;  
+    --verde: #16a34a;    
+    --azul: #2563eb;     
 }
 
 * {
@@ -69,7 +71,7 @@ header {
 /* GRID DA TABELA REAJUSTADO PARA 4 COLUNAS */
 .grid-header, .grid-row {
     display: grid;
-    grid-template-columns: 1fr 2.5fr 1fr 1fr; /* Adicionado espaço para o botão */
+    grid-template-columns: 1fr 2.5fr 1fr 1fr;
     padding: 15px 25px;
     align-items: center;
 }
@@ -84,7 +86,7 @@ header {
 
 .lista-rolagem {
     flex: 1;
-    overflow-y: auto; /* Permite rolar a lista na recepção */
+    overflow-y: auto;
 }
 
 .grid-row {
@@ -107,9 +109,13 @@ header {
     text-transform: uppercase;
     width: fit-content;
 }
-.bg-urgente { background-color: var(--urgente); }
-.bg-atencao { background-color: var(--atencao); color: #333; }
-.bg-comum { background-color: var(--comum); }
+
+/* Classes dinâmicas para as cores de gravidade */
+.bg-vermelho { background-color: var(--vermelho); }
+.bg-laranja  { background-color: var(--laranja); }
+.bg-amarelo  { background-color: var(--amarelo); color: #fff; } /* Texto branco para destacar no amarelo escuro */
+.bg-verde    { background-color: var(--verde); }
+.bg-azul     { background-color: var(--azul); }
 
 /* --- ESTILO DO BOTÃO CHAMAR --- */
 .btn-chamar {

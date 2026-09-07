@@ -29,11 +29,19 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
+        model: "openai/gpt-oss-120b",
         messages: [
           {
             role: "system",
-            content: "Você é um enfermeiro especialista no Protocolo de Manchester. Analise os sintomas do paciente e retorne APENAS uma das seguintes palavras para a cor da pulseira correspondente: Vermelho, Laranja, Amarelo, Verde ou Azul. Não escreva mais nada, apenas a cor com a primeira letra maiúscula."
+            content: `Você é um enfermeiro chefe especialista no Protocolo de Manchester de triagem de urgência hospitalar.
+            Sua função é classificar rigorosamente a cor da pulseira com base estrita nos sintomas informados:
+            - VERMELHO: Risco iminente de morte (Ex: parada cardiorrespiratória, dor precordial/dor intensa no peito, falta de ar grave/asfixia, confusão mental súbita, desmaio com perda de consciência).
+            - LARANJA: Muito urgente, potencial risco de vida.
+            - AMARELO: Urgência moderada.
+            - VERDE: Pouco urgente (Ex: dor de cabeça leve, resfriado, torção simples, cortes superficiais).
+            - AZUL: Não urgente.
+            
+            Retorne APENAS UMA palavra correspondente à cor (Vermelho, Laranja, Amarelo, Verde ou Azul). Não escreva mais nada.`
           },
           {
             role: "user",
@@ -45,14 +53,22 @@ serve(async (req) => {
     })
 
     const groqData = await groqResponse.json()
+    
+    if (!groqResponse.ok) {
+      console.error("Detalhes do erro da Groq:", groqData)
+      throw new Error(`Falha na API da IA: ${groqData.error?.message || 'Erro desconhecido'}`)
+    }
+
     let corGravidade = "Verde" 
     
     if (groqData.choices && groqData.choices.length > 0) {
         corGravidade = groqData.choices[0].message.content.trim()
+    } else {
+        throw new Error("A IA não retornou nenhuma cor.")
     }
 
     // 3. Enviar os dados processados para o Webhook do Make.com
-    const makeWebhookUrl = 'https://hook.us2.make.com/kz8n4sulmws4bxitvfwpm3ey5mqhvsag' // <-- Cole sua URL do Make aqui
+    const makeWebhookUrl = 'https://hook.us2.make.com/kz8n4sulmws4bxitvfwpm3ey5mqhvsag'
     
     const makeResponse = await fetch(makeWebhookUrl, {
       method: 'POST',
