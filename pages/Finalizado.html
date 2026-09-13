@@ -3,40 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finalizado</title>
+    <title>Atendimento Concluído - Triagem</title>
     <link rel="stylesheet" href="../styles/Finalizado.css">
 </head>
-
 <body>
 
     <div class="container">
-        <div class="icone">✔</div>
+        <div class="icone" aria-hidden="true">✔</div>
 
-        <h1 class="titulo">Atendimento finalizado com sucesso</h1>
+        <h1 class="titulo">Atendimento Registrado</h1>
 
         <p class="descricao">
-            Seus dados foram registrados corretamente.<br>
-            Sua classificação de risco é: <strong id="senha-atendimento" style="font-size: 1.5em; color: #2c3e50;">Carregando...</strong>
+            Seus dados foram salvos com sucesso no sistema.<br><br>
+            Sua Senha: <strong id="texto-senha" class="valor-senha-inline">Carregando...</strong><br>
+            Classificação de Risco: <strong id="texto-gravidade" class="valor-gravidade-inline">Carregando...</strong>
         </p>
     </div>
 
     <script>
-        // Pega os parâmetros que vieram na URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const gravidade = urlParams.get('gravidade');
+        const SUPABASE_URL = "https://drfjnznvfrofednoexgq.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyZmpuem52ZnJvZmVkbm9leGdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNDUwMDgsImV4cCI6MjA5OTYyMTAwOH0.aYkwoAOjq9WzY8ZId4KvgxZbsBpCZPbUQU6oUjVLkBs"; 
 
-        const elementoSenha = document.getElementById('senha-atendimento');
-        
-        if (gravidade) {
-            elementoSenha.textContent = gravidade.toUpperCase();
-        } else {
-            elementoSenha.textContent = "Registrado com sucesso!";
+        async function carregarUltimoAtendimento() {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/paciente?select=senha,gravidade&order=id.desc&limit=1`, {
+                    headers: {
+                        "apikey": SUPABASE_KEY,
+                        "Authorization": `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+
+                const dados = await response.json();
+                
+                if (dados && dados.length > 0) {
+                    const paciente = dados[0];
+                    document.getElementById('texto-senha').textContent = paciente.senha || "---";
+                    document.getElementById('texto-gravidade').textContent = (paciente.gravidade || "Verde").toUpperCase();
+                } else {
+                    document.getElementById('texto-senha').textContent = "---";
+                    document.getElementById('texto-gravidade').textContent = "Registrado com sucesso!";
+                }
+            } catch (error) {
+                console.error("Erro ao buscar dados do atendimento:", error);
+                document.getElementById('texto-senha').textContent = "---";
+                document.getElementById('texto-gravidade').textContent = "Registrado com sucesso!";
+            }
         }
 
-        // Redireciona para o início após 6 segundos para dar tempo do usuário ler
+        carregarUltimoAtendimento();
+
         setTimeout(function() {
             window.location.href = "/index.html";
-        }, 5000); 
+        }, 6000); 
     </script>
 
 </body>

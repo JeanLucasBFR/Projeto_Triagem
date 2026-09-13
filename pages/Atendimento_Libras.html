@@ -4,53 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atendimento em Libras</title>
-    <link rel="stylesheet" href="/styles/Atendimento_Libras.css" />
-    <script src="/script/Atendimento_Libras.js"></script>
+    <link rel="stylesheet" href="../styles/Atendimento_Libras.css" />
+    <script src="../script/Atendimento_Libras.js" defer></script>
 </head>
 <body>
 
     <div class="container">
 
-        <!-- COLUNA ESQUERDA (FORMULÁRIO) -->
-        <div class="coluna esquerda">
+        <div class="painel-superior">
+            
+            <div class="coluna esquerda">
+                <h1 class="titulo">Atendimento</h1>
 
-            <h1 class="titulo">Atendimento</h1>
+                <form id="formulario" class="formulario">
+                    
+                    <div class="campo">
+                        <label>Nome</label>
+                        <input type="text" id="nome" placeholder="Digite seu nome e sobrenome">
+                    </div>
 
-        <form class="formulario">
+                    <div class="campo">
+                        <label>Data de nascimento</label>
+                        <input type="date" id="data">
+                    </div>
 
-            <div class="campo">
-                <label>Nome</label>
-                <input type="text" id="nome" placeholder="Digite seu nome e sobrenome">
+                    <div class="campo campo-sintomas">
+                        <label>Sintomas</label>
+                        <textarea id="sintomas" placeholder="Escolha os sintomas..."></textarea>
+                    </div>
+
+                    <div class="botoes">
+                        <button type="button" class="btn voltar" onclick="history.back()">Voltar</button>
+                        <button type="submit" class="btn finalizar">Finalizar</button>
+                    </div>
+
+                </form>
             </div>
 
-
-            <div class="campo">
-                <label>Data de nascimento</label>
-                <input type="date" id="data">
+            <div class="coluna direita">
+                <span>Câmera</span>
             </div>
-
-            <div class="campo">
-                <label>Sintomas</label>
-                <textarea id="sintomas" placeholder="Escolha os sintomas..."></textarea>
-            </div>
-
-            <div class="botoes">
-                <button type="button" class="btn voltar" onclick="history.back()">Voltar</button>
-                <button type="submit" class="btn finalizar">Finalizar</button>
-            </div>
-
-        </form>
 
         </div>
 
-        <!-- COLUNA CENTRAL (WEBCAM PESSOA) -->
-        <div class="coluna centro">
-            <span>Pessoa</span>
-        </div>
+        <hr class="divisor">
 
-        <!-- COLUNA DIREITA (INTÉRPRETE IA) -->
-        <div class="coluna direita">
-            <span>IA</span>
+        <div class="painel-inferior">
+            <h2 class="titulo-teclado">Teclado em Libras</h2>
+            
+            <div class="teclado-libras">
+
+                <div class="linha-teclado">
+                    <button class="tecla"><span class="letra">1</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">2</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">3</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">4</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">5</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">6</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">7</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">8</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">9</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">0</span><span class="sinal"></span></button>
+                </div>
+
+                <div class="linha-teclado">
+                    <button class="tecla"><span class="letra">A</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">B</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">C</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">D</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">E</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">F</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">G</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">H</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">I</span><span class="sinal"></span></button>
+                </div>
+
+                <div class="linha-teclado">
+                    <button class="tecla"><span class="letra">J</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">K</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">L</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">M</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">N</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">O</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">P</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">Q</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">R</span><span class="sinal"></span></button>
+                </div>
+
+                <div class="linha-teclado">
+                    <button class="tecla"><span class="letra">S</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">T</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">U</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">V</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">W</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">X</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">Y</span><span class="sinal"></span></button>
+                    <button class="tecla"><span class="letra">Z</span><span class="sinal"></span></button>
+
+                    <button class="tecla apagar">
+                        <span class="letra">⌫</span>
+                        <span class="sinal">Apagar</span>
+                    </button>
+                </div>
+
+                <div class="linha-teclado">
+                    <button class="tecla espaco">
+                        <span class="letra">Espaço</span>
+                        <span class="sinal">____</span>
+                    </button>
+                </div>
+
+            </div>
         </div>
 
     </div>

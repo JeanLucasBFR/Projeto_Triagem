@@ -3,8 +3,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 async function carregarDadosRecepcao() {
     try {
-        // Busca apenas pacientes onde o status é vazio (is.null)
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/paciente?status=is.null&select=*&order=id.asc`, {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/paciente?status=is.null&select=*`, {
             headers: {
                 "apikey": SUPABASE_KEY,
                 "Authorization": `Bearer ${SUPABASE_KEY}`
@@ -14,6 +13,32 @@ async function carregarDadosRecepcao() {
         const pacientes = await response.json();
         const listaElemento = document.getElementById("lista-pacientes");
         listaElemento.innerHTML = ""; 
+
+        // Regra de Ordenação: 1º Vermelho, 2º Senhas com P (Preferencial), 3º Ordem de chegada (ID)
+        pacientes.sort((a, b) => {
+            const gravidadeA = (a.gravidade || "").toLowerCase();
+            const gravidadeB = (b.gravidade || "").toLowerCase();
+            
+            const senhaA = (a.senha || "").toUpperCase();
+            const senhaB = (b.senha || "").toUpperCase();
+
+            const isVermelhoA = gravidadeA.includes("vermelho");
+            const isVermelhoB = gravidadeB.includes("vermelho");
+
+            const isPrefA = senhaA.startsWith("P");
+            const isPrefB = senhaB.startsWith("P");
+
+            // 1. Prioridade absoluta para Vermelho
+            if (isVermelhoA && !isVermelhoB) return -1;
+            if (!isVermelhoA && isVermelhoB) return 1;
+
+            // 2. Segunda prioridade para Preferenciais (P) que não sejam vermelhos
+            if (isPrefA && !isPrefB) return -1;
+            if (!isPrefA && isPrefB) return 1;
+
+            // 3. Demais casos: ordem de chegada (ID menor primeiro)
+            return a.id - b.id;
+        });
 
         pacientes.forEach(paciente => {
             const gravidadeTexto = paciente.gravidade || "Verde";

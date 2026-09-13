@@ -34,14 +34,14 @@ serve(async (req) => {
           {
             role: "system",
             content: `Você é um enfermeiro chefe especialista no Protocolo de Manchester de triagem de urgência hospitalar.
-            Sua função é classificar rigorosamente a cor da pulseira com base estrita nos sintomas informados:
-            - VERMELHO: Risco iminente de morte (Ex: parada cardiorrespiratória, dor precordial/dor intensa no peito, falta de ar grave/asfixia, confusão mental súbita, desmaio com perda de consciência).
-            - LARANJA: Muito urgente, potencial risco de vida.
-            - AMARELO: Urgência moderada.
-            - VERDE: Pouco urgente (Ex: dor de cabeça leve, resfriado, torção simples, cortes superficiais).
-            - AZUL: Não urgente.
-            
-            Retorne APENAS UMA palavra correspondente à cor (Vermelho, Laranja, Amarelo, Verde ou Azul). Não escreva mais nada.`
+            Sua função é classificar rigorosamente a gravidade com base estrita nos sintomas informados:
+            - Vermelho - Emergência (Risco iminente de morte)
+            - Laranja - Muito Urgente (Potencial risco de vida)
+            - Amarelo - Urgente (Urgência moderada)
+            - Verde - Pouco Urgente (Pouco urgente)
+            - Azul - Não Urgente (Não urgente)
+
+            Retorne APENAS o formato exato da categoria (Ex: "Vermelho - Emergência", "Verde - Pouco Urgente", etc.). Não escreva mais nada.`
           },
           {
             role: "user",

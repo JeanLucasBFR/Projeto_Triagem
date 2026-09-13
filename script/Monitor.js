@@ -66,7 +66,9 @@ function mapearClasseGravidade(gravidade) {
     if (g.includes("laranja")) return "bg-laranja";
     if (g.includes("amarelo")) return "bg-amarelo";
     if (g.includes("azul")) return "bg-azul";
-    return "bg-verde"; // Padrão
+    if (g.includes("verde")) return "bg-verde";
+    
+    return "bg-verde";
 }
 
 setInterval(carregarDadosMonitor, 3000);
