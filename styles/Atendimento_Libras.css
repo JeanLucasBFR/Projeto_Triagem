@@ -51,13 +51,64 @@ body {
 
 .direita {
     flex: 1;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     font-size: clamp(16px, 1.8vw, 22px);
     font-weight: bold;
     color: #94a3b8;
     background: #e2e8f0;
     min-height: 130px;
+    overflow: hidden;
+}
+
+.titulo-camera {
+    color: #1e3a8a;
+    font-size: clamp(16px, 1.8vw, 20px);
+    margin-bottom: 8px;
+}
+
+.camera-area {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    background: #0f172a;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#videoElement,
+#canvasElement {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1);
+}
+
+#videoElement {
+    display: block;
+}
+
+#canvasElement {
+    pointer-events: none;
+}
+
+#resultado {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
+    width: calc(100% - 20px);
+    background: rgba(15, 23, 42, 0.85);
+    color: white;
+    text-align: center;
+    padding: 8px 10px;
+    border-radius: 7px;
+    font-size: clamp(12px, 1.1vw, 14px);
+    z-index: 5;
 }
 
 .titulo {
@@ -264,6 +315,10 @@ textarea:focus {
     .direita {
         min-height: 110px;
     }
+
+    .camera-area {
+        min-height: 200px;
+    }
 }
 
 @media (max-width: 800px) {
@@ -273,5 +328,9 @@ textarea:focus {
 
     .direita {
         min-height: 150px;
+    }
+
+    .camera-area {
+        min-height: 250px;
     }
 }

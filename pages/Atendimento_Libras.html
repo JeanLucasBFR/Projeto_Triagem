@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atendimento em Libras</title>
     <link rel="stylesheet" href="../styles/Atendimento_Libras.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous" defer></script>
+
     <script src="../script/Atendimento_Libras.js" defer></script>
 </head>
 <body>
@@ -42,7 +48,16 @@
             </div>
 
             <div class="coluna direita">
-                <span>Câmera</span>
+                <span class="titulo-camera">Câmera</span>
+
+                <div class="camera-area">
+                    <video id="videoElement" autoplay playsinline></video>
+                    <canvas id="canvasElement"></canvas>
+
+                    <div id="resultado">
+                        Posicione o indicador na testa
+                    </div>
+                </div>
             </div>
 
         </div>
