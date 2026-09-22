@@ -6,10 +6,9 @@
     <title>Atendimento em Libras</title>
     <link rel="stylesheet" href="../styles/Atendimento_Libras.css" />
 
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous" defer></script>
+    <!-- Bibliotecas da Inteligência Artificial (TensorFlow & Teachable Machine) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js" defer></script>
 
     <script src="../script/Atendimento_Libras.js" defer></script>
 </head>
@@ -51,11 +50,11 @@
                 <span class="titulo-camera">Câmera</span>
 
                 <div class="camera-area">
-                    <video id="videoElement" autoplay playsinline></video>
+                    <!-- O Canvas será usado para exibir o feed da IA -->
                     <canvas id="canvasElement"></canvas>
 
                     <div id="resultado">
-                        Posicione o indicador na testa
+                        A carregar o modelo de Inteligência Artificial...
                     </div>
                 </div>
             </div>
