@@ -74,7 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 if (response.ok) {
-                    window.location.href = "Finalizado.html";
+                    const resultado = await response.json();
+
+                    window.location.href = `Finalizado.html?id=${resultado.id}`;
                 } else {
                     // Isso vai capturar o texto exato do erro que a Função devolveu
                     const erroDoServidor = await response.text(); 

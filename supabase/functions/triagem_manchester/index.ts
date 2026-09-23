@@ -88,9 +88,11 @@ serve(async (req) => {
       throw new Error('Erro ao enviar dados para o Make.com')
     }
 
+    const makeData = await makeResponse.json()
+
     // 4. Retornar o sucesso para o front-end
     return new Response(
-      JSON.stringify({ success: true, gravidade: corGravidade }),
+      JSON.stringify({ success: true, id: makeData.id, gravidade: corGravidade }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
     )
 

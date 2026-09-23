@@ -379,7 +379,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 if (response.ok) {
-                    window.location.href = "Finalizado.html";
+                    const resultado = await response.json();
+
+                    window.location.href = `Finalizado.html?id=${resultado.id}`;
                 } else {
                     const erroDoServidor = await response.text();
                     alert("Erro do servidor: " + erroDoServidor);
