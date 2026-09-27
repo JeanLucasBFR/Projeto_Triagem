@@ -6,10 +6,6 @@
     <title>Atendimento em Libras</title>
     <link rel="stylesheet" href="../styles/Atendimento_Libras.css" />
 
-    <!-- Bibliotecas da Inteligência Artificial (TensorFlow & Teachable Machine) -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js" defer></script>
-
     <script src="../script/Atendimento_Libras.js" defer></script>
 </head>
 <body>
@@ -50,11 +46,11 @@
                 <span class="titulo-camera">Câmera</span>
 
                 <div class="camera-area">
-                    <!-- O Canvas será usado para exibir o feed da IA -->
+                    <!-- O Canvas será usado para exibir a câmera e os pontos do MediaPipe -->
                     <canvas id="canvasElement"></canvas>
 
                     <div id="resultado">
-                        A carregar o modelo de Inteligência Artificial...
+                        A carregar MediaPipe...
                     </div>
                 </div>
             </div>
