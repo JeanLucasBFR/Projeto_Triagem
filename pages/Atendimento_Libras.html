@@ -31,7 +31,7 @@
 
                     <div class="campo campo-sintomas">
                         <label>Sintomas</label>
-                        <textarea id="sintomas" placeholder="Escolha os sintomas..."></textarea>
+                        <textarea id="sintomas" placeholder="Clique para escolher os sintomas..." readonly></textarea>
                     </div>
 
                     <div class="botoes">
@@ -40,19 +40,6 @@
                     </div>
 
                 </form>
-            </div>
-
-            <div class="coluna direita">
-                <span class="titulo-camera">Câmera</span>
-
-                <div class="camera-area">
-                    <!-- O Canvas será usado para exibir a câmera e os pontos do MediaPipe -->
-                    <canvas id="canvasElement"></canvas>
-
-                    <div id="resultado">
-                        A carregar MediaPipe...
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -125,6 +112,87 @@
                 </div>
 
             </div>
+        </div>
+
+    </div>
+
+    <!-- JANELA DE SINTOMAS -->
+    <div id="modalSintomas" class="modal-sintomas">
+
+        <div class="modal-sintomas-conteudo">
+
+            <div class="modal-sintomas-topo">
+                <div>
+                    <h2>Sintomas em Libras</h2>
+                    <p>Selecione os sintomas que você está sentindo.</p>
+                </div>
+
+                <button type="button" id="fecharSintomas" class="fechar-sintomas">×</button>
+            </div>
+
+            <div class="grade-sintomas">
+
+                <button type="button" class="card-sintoma" data-sintoma="Febre">
+                    <span class="nome-sintoma">Febre</span>
+                    <div class="video-placeholder">
+                        <span>▶</span>
+                        <small>Vídeo em Libras será adicionado aqui</small>
+                    </div>
+                    <span class="selecionar-sintoma">Selecionar</span>
+                </button>
+
+                <button type="button" class="card-sintoma" data-sintoma="Dor de cabeça">
+                    <span class="nome-sintoma">Dor de cabeça</span>
+                    <div class="video-placeholder">
+                        <span>▶</span>
+                        <small>Vídeo em Libras será adicionado aqui</small>
+                    </div>
+                    <span class="selecionar-sintoma">Selecionar</span>
+                </button>
+
+                <button type="button" class="card-sintoma" data-sintoma="Dor no peito">
+                    <span class="nome-sintoma">Dor no peito</span>
+                    <div class="video-placeholder">
+                        <span>▶</span>
+                        <small>Vídeo em Libras será adicionado aqui</small>
+                    </div>
+                    <span class="selecionar-sintoma">Selecionar</span>
+                </button>
+
+                <button type="button" class="card-sintoma" data-sintoma="Falta de ar">
+                    <span class="nome-sintoma">Falta de ar</span>
+                    <div class="video-placeholder">
+                        <span>▶</span>
+                        <small>Vídeo em Libras será adicionado aqui</small>
+                    </div>
+                    <span class="selecionar-sintoma">Selecionar</span>
+                </button>
+
+                <button type="button" class="card-sintoma" data-sintoma="Tontura">
+                    <span class="nome-sintoma">Tontura</span>
+                    <div class="video-placeholder">
+                        <span>▶</span>
+                        <small>Vídeo em Libras será adicionado aqui</small>
+                    </div>
+                    <span class="selecionar-sintoma">Selecionar</span>
+                </button>
+
+                <button type="button" class="card-sintoma" data-sintoma="Náusea">
+                    <span class="nome-sintoma">Náusea</span>
+                    <div class="video-placeholder">
+                        <span>▶</span>
+                        <small>Vídeo em Libras será adicionado aqui</small>
+                    </div>
+                    <span class="selecionar-sintoma">Selecionar</span>
+                </button>
+
+            </div>
+
+            <div class="modal-sintomas-botoes">
+                <button type="button" id="limparSintomas" class="btn-limpar-sintomas">Limpar</button>
+                <button type="button" id="confirmarSintomas" class="btn-confirmar-sintomas">Confirmar sintomas</button>
+            </div>
+
         </div>
 
     </div>
