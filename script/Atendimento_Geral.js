@@ -50,14 +50,22 @@ document.addEventListener("DOMContentLoaded", function () {
         if (valido) {
             const urlParams = new URLSearchParams(window.location.search);
             const tipoFila = urlParams.get('tipo') || 'G';
+            const inicioTriagem = Number(sessionStorage.getItem("inicioTriagem"));
 
+            let tempoTriagemSegundos = null;
+
+            if (inicioTriagem && !Number.isNaN(inicioTriagem)) {
+                tempoTriagemSegundos = Math.floor((Date.now() - inicioTriagem) / 1000);
+            }
             const dadosPaciente = {
                 nome: nomeInput.value,
-                dataNasc: dataInput.value, // Certifique-se de que dataInput.value não está vazio
+                dataNasc: dataInput.value,
                 sintomas: sintomasInput.value,
-                tipo: tipoFila
+                tipo: tipoFila,
+                tempoTriagemSegundos: tempoTriagemSegundos
             };
-
+            console.log("Dados enviados:", dadosPaciente);
+            
             const textoOriginalBotao = btnFinalizar.innerText;
             btnFinalizar.innerText = "Enviando...";
             btnFinalizar.disabled = true;

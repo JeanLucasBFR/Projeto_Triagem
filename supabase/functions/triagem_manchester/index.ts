@@ -13,7 +13,7 @@ serve(async (req) => {
 
   try {
     // 1. Receber os dados do front-end
-    const { nome, dataNasc, sintomas, tipo } = await req.json()
+    const { nome, dataNasc, sintomas, tipo, tempoTriagemSegundos } = await req.json()
 
     if (!sintomas || !dataNasc) {
       throw new Error('Preencha todos os campos obrigatórios.')
@@ -80,7 +80,8 @@ serve(async (req) => {
         dataNasc: dataNasc,
         sintomas: sintomas,
         tipo: tipo,
-        gravidade: corGravidade
+        gravidade: corGravidade,
+        tempoTriagemSegundos: tempoTriagemSegundos
       })
     })
 

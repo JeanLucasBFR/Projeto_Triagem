@@ -331,6 +331,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const urlParams = new URLSearchParams(window.location.search);
             const tipoFila = urlParams.get("tipo") || "G";
 
+            const inicioTriagem = Number(sessionStorage.getItem("inicioTriagem"));
+
+            let tempoTriagemSegundos = null;
+
+            if (inicioTriagem && !Number.isNaN(inicioTriagem)) {
+                tempoTriagemSegundos = Math.floor((Date.now() - inicioTriagem) / 1000);
+            }
+
             const partesData = dataInput.value.split("/");
             const dataFormatadaBanco = `${partesData[2]}-${partesData[1]}-${partesData[0]}`;
 
@@ -338,7 +346,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 nome: nomeInput.value,
                 dataNasc: dataFormatadaBanco,
                 sintomas: sintomasInput.value,
-                tipo: tipoFila
+                tipo: tipoFila,
+                tempoTriagemSegundos: tempoTriagemSegundos
             };
 
             const textoOriginalBotao = btnFinalizar.innerText;
