@@ -5,9 +5,34 @@ document.addEventListener("DOMContentLoaded", function () {
     const sintomasInput = document.getElementById("sintomas");
     const btnFinalizar = document.querySelector(".btn.finalizar");
 
+    function formatarNome(texto) {
+        return texto.toLowerCase().replace(/(?:^|\s)\S/g, function (letra) {
+            return letra.toUpperCase();
+        });
+    }
+
+    function formatarSintomas(texto) {
+        if (!texto) return "";
+
+        let min = texto.toLowerCase();
+
+        return min.replace(/(^\s*|[.!?,]\s*|\n\s*)([a-zà-öø-ÿ])/g, function (match, separador, letra) {
+            return separador + letra.toUpperCase();
+        });
+    }
+
+    nomeInput.addEventListener("input", function () {
+        this.value = formatarNome(this.value);
+    });
+
+    sintomasInput.addEventListener("input", function () {
+        this.value = formatarSintomas(this.value);
+    });
+
     // === CONFIGURAÇÕES DO SUPABASE ===
     // Cole sua chave Anon/Public aqui
-    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyZmpuem52ZnJvZmVkbm9leGdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNDUwMDgsImV4cCI6MjA5OTYyMTAwOH0.aYkwoAOjq9WzY8ZId4KvgxZbsBpCZPbUQU6oUjVLkBs"; 
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyZmpuem52ZnJvZmVkbm9leGdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNDUwMDgsImV4cCI6MjA5OTYyMTAwOH0.aYkwoAOjq9WzY8ZId4KvgxZbsBpCZPbUQU6oUjVLkBs";
+
     // URL da Função que você acabou de dar o deploy
     const functionUrl = "https://drfjnznvfrofednoexgq.supabase.co/functions/v1/triagem_manchester";
 
@@ -57,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (inicioTriagem && !Number.isNaN(inicioTriagem)) {
                 tempoTriagemSegundos = Math.floor((Date.now() - inicioTriagem) / 1000);
             }
+
             const dadosPaciente = {
                 nome: nomeInput.value,
                 dataNasc: dataInput.value,
@@ -64,8 +90,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 tipo: tipoFila,
                 tempoTriagemSegundos: tempoTriagemSegundos
             };
+
             console.log("Dados enviados:", dadosPaciente);
-            
+
             const textoOriginalBotao = btnFinalizar.innerText;
             btnFinalizar.innerText = "Enviando...";
             btnFinalizar.disabled = true;
@@ -87,9 +114,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     window.location.href = `Finalizado.html?id=${resultado.id}`;
                 } else {
                     // Isso vai capturar o texto exato do erro que a Função devolveu
-                    const erroDoServidor = await response.text(); 
+                    const erroDoServidor = await response.text();
                     alert("Erro do servidor: " + erroDoServidor);
-                    
+
                     btnFinalizar.innerText = textoOriginalBotao;
                     btnFinalizar.disabled = false;
                 }

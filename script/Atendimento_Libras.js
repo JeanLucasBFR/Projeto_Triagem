@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const letra = tecla.querySelector(".letra");
         const sinal = tecla.querySelector(".sinal");
+
         if (!letra || !sinal) return;
 
         const caractere = letra.textContent.trim();
@@ -97,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const caractere = tecla.querySelector(".letra")?.textContent;
             const ehNumero = /^[0-9]$/.test(caractere);
             const ehLetra = /^[A-Z]$/i.test(caractere);
+
             let habilitado = true;
 
             if (campoFocado === nomeInput) {
@@ -143,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!campoFocado || tecla.disabled) return;
 
             const caractere = tecla.querySelector(".letra")?.textContent;
+
             if (!caractere) return;
 
             if (campoFocado === nomeInput) {
@@ -209,11 +212,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.classList.add("modal-aberto");
     }
 
-    function fecharModalSintomas() {
-        modalSintomas.classList.remove("ativo");
-        document.body.classList.remove("modal-aberto");
-    }
-
     function alternarSintoma(sintoma) {
         const indice = sintomasTemporarios.findIndex(item =>
             item.toLowerCase() === sintoma.toLowerCase()
@@ -242,8 +240,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     cardsSintomas.forEach(card => {
-        card.addEventListener("click", function () {
-            const sintoma = this.dataset.sintoma;
+        const botaoSelecionar = card.querySelector(".selecionar-sintoma");
+
+        if (!botaoSelecionar) return;
+
+        botaoSelecionar.addEventListener("click", function () {
+            const sintoma = card.dataset.sintoma;
+
             if (!sintoma) return;
 
             alternarSintoma(sintoma);
@@ -263,6 +266,104 @@ document.addEventListener("DOMContentLoaded", function () {
         atualizarCardsSintomas();
     });
 
+    // ==========================================
+    // 3. CONTROLE DOS VÍDEOS
+    // ==========================================
+
+    const videosSintomas = document.querySelectorAll(".video-sintoma");
+    const botoesPlay = document.querySelectorAll(".btn-play-video");
+
+    function mostrarBotaoPlay(video) {
+        const container = video.closest(".video-container");
+
+        if (!container) return;
+
+        const botao = container.querySelector(".btn-play-video");
+
+        if (botao) {
+            botao.classList.remove("oculto");
+        }
+    }
+
+    function esconderBotaoPlay(video) {
+        const container = video.closest(".video-container");
+
+        if (!container) return;
+
+        const botao = container.querySelector(".btn-play-video");
+
+        if (botao) {
+            botao.classList.add("oculto");
+        }
+    }
+
+    function pausarOutrosVideos(videoAtual) {
+        videosSintomas.forEach(video => {
+            if (video !== videoAtual) {
+                video.pause();
+                mostrarBotaoPlay(video);
+            }
+        });
+    }
+
+    function pararTodosVideos() {
+        videosSintomas.forEach(video => {
+            video.pause();
+            video.currentTime = 0;
+            mostrarBotaoPlay(video);
+        });
+    }
+
+    botoesPlay.forEach(botao => {
+        botao.addEventListener("click", function () {
+            const container = this.closest(".video-container");
+
+            if (!container) return;
+
+            const video = container.querySelector(".video-sintoma");
+
+            if (!video) return;
+
+            pausarOutrosVideos(video);
+
+            video.play()
+                .then(() => {
+                    esconderBotaoPlay(video);
+                })
+                .catch(error => {
+                    console.error("Erro ao reproduzir vídeo:", error);
+                    mostrarBotaoPlay(video);
+                });
+        });
+    });
+
+    videosSintomas.forEach(video => {
+
+        video.addEventListener("click", function () {
+            if (!this.paused) {
+                this.pause();
+                mostrarBotaoPlay(this);
+            }
+        });
+
+        video.addEventListener("ended", function () {
+            this.currentTime = 0;
+            mostrarBotaoPlay(this);
+        });
+
+    });
+
+    // ==========================================
+    // 4. FECHAMENTO DO MODAL
+    // ==========================================
+
+    function fecharModalSintomas() {
+        pararTodosVideos();
+
+        modalSintomas.classList.remove("ativo");
+        document.body.classList.remove("modal-aberto");
+    }
+
     fecharSintomas.addEventListener("click", function () {
         fecharModalSintomas();
     });
@@ -280,7 +381,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ==========================================
-    // 3. ENVIO PARA O SUPABASE
+    // 5. ENVIO PARA O SUPABASE
     // ==========================================
 
     const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyZmpuem52ZnJvZmVkbm9leGdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNDUwMDgsImV4cCI6MjA5OTYyMTAwOH0.aYkwoAOjq9WzY8ZId4KvgxZbsBpCZPbUQU6oUjVLkBs";
@@ -329,7 +430,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (valido) {
             const urlParams = new URLSearchParams(window.location.search);
-            const tipoFila = urlParams.get("tipo") || "G";
+            const tipoFila = urlParams.get("tipo") || "L";
 
             const inicioTriagem = Number(sessionStorage.getItem("inicioTriagem"));
 

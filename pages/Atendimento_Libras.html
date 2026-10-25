@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atendimento em Libras</title>
     <link rel="stylesheet" href="../styles/Atendimento_Libras.css" />
-
     <script src="../script/Atendimento_Libras.js" defer></script>
 </head>
 <body>
@@ -13,12 +12,12 @@
     <div class="container">
 
         <div class="painel-superior">
-            
+
             <div class="coluna esquerda">
                 <h1 class="titulo">Atendimento</h1>
 
                 <form id="formulario" class="formulario">
-                    
+
                     <div class="campo">
                         <label>Nome</label>
                         <input type="text" id="nome" placeholder="Digite seu nome e sobrenome">
@@ -48,7 +47,7 @@
 
         <div class="painel-inferior">
             <h2 class="titulo-teclado">Teclado em Libras</h2>
-            
+
             <div class="teclado-libras">
 
                 <div class="linha-teclado">
@@ -124,7 +123,7 @@
             <div class="modal-sintomas-topo">
                 <div>
                     <h2>Sintomas em Libras</h2>
-                    <p>Selecione os sintomas que você está sentindo.</p>
+                    <p>Assista ao sinal e selecione os sintomas que você está sentindo.</p>
                 </div>
 
                 <button type="button" id="fecharSintomas" class="fechar-sintomas">×</button>
@@ -132,59 +131,117 @@
 
             <div class="grade-sintomas">
 
-                <button type="button" class="card-sintoma" data-sintoma="Febre">
-                    <span class="nome-sintoma">Febre</span>
-                    <div class="video-placeholder">
-                        <span>▶</span>
-                        <small>Vídeo em Libras será adicionado aqui</small>
-                    </div>
-                    <span class="selecionar-sintoma">Selecionar</span>
-                </button>
+                <div class="card-sintoma" data-sintoma="Dor de barriga">
+                    <span class="nome-sintoma">Dor de barriga</span>
 
-                <button type="button" class="card-sintoma" data-sintoma="Dor de cabeça">
+                    <div class="video-container">
+                        <video class="video-sintoma" muted playsinline preload="metadata">
+                            <source src="../sintomas/dor-barriga.mp4" type="video/mp4">
+                        </video>
+
+                        <button type="button" class="btn-play-video">▶</button>
+                    </div>
+
+                    <button type="button" class="selecionar-sintoma">Selecionar</button>
+                </div>
+
+                <div class="card-sintoma" data-sintoma="Dor de cabeça">
                     <span class="nome-sintoma">Dor de cabeça</span>
-                    <div class="video-placeholder">
-                        <span>▶</span>
-                        <small>Vídeo em Libras será adicionado aqui</small>
-                    </div>
-                    <span class="selecionar-sintoma">Selecionar</span>
-                </button>
 
-                <button type="button" class="card-sintoma" data-sintoma="Dor no peito">
-                    <span class="nome-sintoma">Dor no peito</span>
-                    <div class="video-placeholder">
-                        <span>▶</span>
-                        <small>Vídeo em Libras será adicionado aqui</small>
-                    </div>
-                    <span class="selecionar-sintoma">Selecionar</span>
-                </button>
+                    <div class="video-container">
+                        <video class="video-sintoma" muted playsinline preload="metadata">
+                            <source src="../sintomas/dor-cabeca.mp4" type="video/mp4">
+                        </video>
 
-                <button type="button" class="card-sintoma" data-sintoma="Falta de ar">
+                        <button type="button" class="btn-play-video">▶</button>
+                    </div>
+
+                    <button type="button" class="selecionar-sintoma">Selecionar</button>
+                </div>
+
+                <div class="card-sintoma" data-sintoma="Dor na garganta">
+                    <span class="nome-sintoma">Dor na garganta</span>
+
+                    <div class="video-container">
+                        <video class="video-sintoma" muted playsinline preload="metadata">
+                            <source src="../sintomas/dor-garganta.mp4" type="video/mp4">
+                        </video>
+
+                        <button type="button" class="btn-play-video">▶</button>
+                    </div>
+
+                    <button type="button" class="selecionar-sintoma">Selecionar</button>
+                </div>
+
+                <div class="card-sintoma" data-sintoma="Dor no corpo">
+                    <span class="nome-sintoma">Dor no corpo</span>
+
+                    <div class="video-container">
+                        <video class="video-sintoma" muted playsinline preload="metadata">
+                            <source src="../sintomas/dor-corpo.mp4" type="video/mp4">
+                        </video>
+
+                        <button type="button" class="btn-play-video">▶</button>
+                    </div>
+
+                    <button type="button" class="selecionar-sintoma">Selecionar</button>
+                </div>
+
+                <div class="card-sintoma" data-sintoma="Enjoo">
+                    <span class="nome-sintoma">Enjoo</span>
+
+                    <div class="video-container">
+                        <video class="video-sintoma" muted playsinline preload="metadata">
+                            <source src="../sintomas/enjoo.mp4" type="video/mp4">
+                        </video>
+
+                        <button type="button" class="btn-play-video">▶</button>
+                    </div>
+
+                    <button type="button" class="selecionar-sintoma">Selecionar</button>
+                </div>
+
+                <div class="card-sintoma" data-sintoma="Falta de ar">
                     <span class="nome-sintoma">Falta de ar</span>
-                    <div class="video-placeholder">
-                        <span>▶</span>
-                        <small>Vídeo em Libras será adicionado aqui</small>
-                    </div>
-                    <span class="selecionar-sintoma">Selecionar</span>
-                </button>
 
-                <button type="button" class="card-sintoma" data-sintoma="Tontura">
+                    <div class="video-container">
+                        <video class="video-sintoma" muted playsinline preload="metadata">
+                            <source src="../sintomas/falta-ar.mp4" type="video/mp4">
+                        </video>
+
+                        <button type="button" class="btn-play-video">▶</button>
+                    </div>
+
+                    <button type="button" class="selecionar-sintoma">Selecionar</button>
+                </div>
+
+                <div class="card-sintoma" data-sintoma="Febre">
+                    <span class="nome-sintoma">Febre</span>
+
+                    <div class="video-container">
+                        <video class="video-sintoma" muted playsinline preload="metadata">
+                            <source src="../sintomas/febre.mp4" type="video/mp4">
+                        </video>
+
+                        <button type="button" class="btn-play-video">▶</button>
+                    </div>
+
+                    <button type="button" class="selecionar-sintoma">Selecionar</button>
+                </div>
+
+                <div class="card-sintoma" data-sintoma="Tontura">
                     <span class="nome-sintoma">Tontura</span>
-                    <div class="video-placeholder">
-                        <span>▶</span>
-                        <small>Vídeo em Libras será adicionado aqui</small>
-                    </div>
-                    <span class="selecionar-sintoma">Selecionar</span>
-                </button>
 
-                <button type="button" class="card-sintoma" data-sintoma="Náusea">
-                    <span class="nome-sintoma">Náusea</span>
-                    <div class="video-placeholder">
-                        <span>▶</span>
-                        <small>Vídeo em Libras será adicionado aqui</small>
+                    <div class="video-container">
+                        <video class="video-sintoma" muted playsinline preload="metadata">
+                            <source src="../sintomas/tontura.mp4" type="video/mp4">
+                        </video>
+
+                        <button type="button" class="btn-play-video">▶</button>
                     </div>
-                    <span class="selecionar-sintoma">Selecionar</span>
-                </button>
+
+                    <button type="button" class="selecionar-sintoma">Selecionar</button>
+                </div>
 
             </div>
 
