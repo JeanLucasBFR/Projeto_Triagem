@@ -148,6 +148,7 @@ textarea:focus {
     border-top: 2px dashed #cbd5e1;
 }
 
+
 /* ========================================== */
 /* TECLADO EM LIBRAS */
 /* ========================================== */
@@ -267,6 +268,7 @@ textarea:focus {
     font-size: 12px;
 }
 
+
 /* ========================================== */
 /* MODAL DE SINTOMAS EM LIBRAS */
 /* ========================================== */
@@ -331,6 +333,7 @@ textarea:focus {
     background: #cbd5e1;
 }
 
+
 /* ========================================== */
 /* CARDS DOS SINTOMAS */
 /* ========================================== */
@@ -368,6 +371,7 @@ textarea:focus {
     font-size: 16px;
     margin-bottom: 10px;
 }
+
 
 /* ========================================== */
 /* VÍDEOS DOS SINTOMAS */
@@ -429,12 +433,17 @@ textarea:focus {
     display: none;
 }
 
+
 /* ========================================== */
 /* BOTÃO SELECIONAR SINTOMA */
 /* ========================================== */
 
 .selecionar-sintoma {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
     width: 100%;
     margin-top: 10px;
     background: #2563eb;
@@ -448,6 +457,12 @@ textarea:focus {
     transition: background 0.2s;
 }
 
+.selecionar-sintoma::before {
+    content: "\2713";
+    font-size: 15px;
+    font-weight: bold;
+}
+
 .selecionar-sintoma:hover {
     background: #1d4ed8;
 }
@@ -455,6 +470,7 @@ textarea:focus {
 .card-sintoma.selecionado .selecionar-sintoma {
     background: #16a34a;
 }
+
 
 /* ========================================== */
 /* BOTÕES DO MODAL */
@@ -495,11 +511,28 @@ textarea:focus {
     background: #1d4ed8;
 }
 
+/*Botão voltar */
+.voltar {
+    background: #e2e8f0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.voltar::before {
+    content: "\2190";
+    font-size: 16px;
+    font-weight: bold;
+}
+
 /* ========================================== */
 /* RESPONSIVIDADE */
 /* ========================================== */
 
 @media (max-height: 700px) {
+
     .tecla {
         height: 48px;
     }
@@ -515,6 +548,7 @@ textarea:focus {
 }
 
 @media (max-width: 800px) {
+
     .grade-sintomas {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -525,6 +559,7 @@ textarea:focus {
 }
 
 @media (max-width: 500px) {
+
     body {
         align-items: flex-start;
     }
