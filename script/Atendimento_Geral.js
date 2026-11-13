@@ -21,12 +21,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    function removerCaracteresInvalidos(texto) {
+        return texto.normalize("NFC").replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, "");
+    }
+
+    function removerCaracteresInvalidosSintomas(texto) {
+        return texto.normalize("NFC").replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s,]/g, "");
+    }
+
     nomeInput.addEventListener("input", function () {
-        this.value = formatarNome(this.value);
+        this.value = formatarNome(removerCaracteresInvalidos(this.value));
     });
 
     sintomasInput.addEventListener("input", function () {
-        this.value = formatarSintomas(this.value);
+        this.value = formatarSintomas(removerCaracteresInvalidosSintomas(this.value));
     });
 
     // === CONFIGURAÇÕES DO SUPABASE ===
@@ -52,23 +60,95 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function validarNome(nome) {
             nome = nome.trim();
-            const partes = nome.split(" ");
+
+            const partes = nome.split(/\s+/);
             const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
+
             return partes.length >= 2 && regex.test(nome);
         }
 
+        function validarSintomas(sintomas) {
+            sintomas = sintomas.trim();
+
+            const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s,]+$/;
+
+            if (!regex.test(sintomas)) {
+                return false;
+            }
+
+            const partes = sintomas.split(",");
+
+            return partes.every(item =>
+                /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(item.trim())
+            );
+        }
+
+        function validarDataNascimento(valor) {
+            valor = valor.trim();
+
+            let dia, mes, ano;
+
+            // Aceita AAAA-MM-DD (input do tipo date)
+            if (/^\d{4}-\d{2}-\d{2}$/.test(valor)) {
+                [ano, mes, dia] = valor.split("-").map(Number);
+
+            // Também aceita DD/MM/AAAA (campo de texto)
+            } else if (/^\d{2}\/\d{2}\/\d{4}$/.test(valor)) {
+                [dia, mes, ano] = valor.split("/").map(Number);
+
+            } else {
+                return false;
+            }
+
+            const nascimento = new Date(ano, mes - 1, dia);
+
+            // Verifica se o dia, mês e ano realmente existem
+            if (
+                nascimento.getFullYear() !== ano ||
+                nascimento.getMonth() !== mes - 1 ||
+                nascimento.getDate() !== dia
+            ) {
+                return false;
+            }
+
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+
+            // Impede datas futuras
+            if (nascimento > hoje) {
+                return false;
+            }
+
+            // Impede datas com mais de 120 anos
+            const limiteMinimo = new Date(
+                hoje.getFullYear() - 120,
+                hoje.getMonth(),
+                hoje.getDate()
+            );
+
+            if (nascimento < limiteMinimo) {
+                return false;
+            }
+
+            return true;
+        }
+
+
         if (!validarNome(nomeInput.value)) {
-            criarErro(nomeInput, "Digite nome e sobrenome válido.");
+            criarErro(nomeInput, "Digite nome e sobrenome usando apenas letras.");
             valido = false;
         }
 
         if (!dataInput.value) {
             criarErro(dataInput, "Informe a data de nascimento.");
             valido = false;
+        } else if (!validarDataNascimento(dataInput.value)) {
+            criarErro(dataInput, "Informe uma data válida, entre 120 anos atrás e hoje.");
+            valido = false;
         }
 
-        if (sintomasInput.value.trim() === "") {
-            criarErro(sintomasInput, "Descreva os sintomas.");
+        if (!validarSintomas(sintomasInput.value)) {
+            criarErro(sintomasInput, "Descreva os sintomas usando apenas letras.");
             valido = false;
         }
 

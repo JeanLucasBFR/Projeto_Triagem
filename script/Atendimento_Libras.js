@@ -65,8 +65,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return apenasNumeros;
     }
 
+    function removerCaracteresInvalidosNome(texto) {
+        return texto.normalize("NFC").replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, "");
+    }
+
     nomeInput.addEventListener("input", function () {
-        this.value = formatarNome(this.value);
+        this.value = formatarNome(removerCaracteresInvalidosNome(this.value));
     });
 
     sintomasInput.addEventListener("input", function () {
@@ -384,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 5. ENVIO PARA O SUPABASE
     // ==========================================
 
-    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyZmpuem52ZnJvZmVkbm9leGdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNDUwMDgsImV4cCI6MjA5OTYyMTAwOH0.aYkwoAOjq9WzY8ZId4KvgxZbsBpCZPbUQU6oUjVLkBs";
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInJlZiI6ImRyZmpuem52ZnJvZmVkbm9leGdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNDUwMDgsImV4cCI6MjA5OTYyMTAwOH0.aYkwoAOjq9WzY8ZId4KvgxZbsBpCZPbUQU6oUjVLkBs";
 
     const functionUrl = "https://drfjnznvfrofednoexgq.supabase.co/functions/v1/triagem_manchester";
 
@@ -407,22 +411,64 @@ document.addEventListener("DOMContentLoaded", function () {
         function validarNome(nome) {
             nome = nome.trim();
 
-            const partes = nome.split(" ");
+            const partes = nome.split(/\s+/);
             const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
 
             return partes.length >= 2 && regex.test(nome);
         }
 
+        function validarDataNascimento(valor) {
+            const partes = valor.trim().match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+
+            if (!partes) return false;
+
+            const dia = Number(partes[1]);
+            const mes = Number(partes[2]);
+            const ano = Number(partes[3]);
+
+            const nascimento = new Date(ano, mes - 1, dia);
+
+            // Confere se a data existe de verdade (ex.: rejeita 31/02).
+            if (
+                nascimento.getFullYear() !== ano ||
+                nascimento.getMonth() !== mes - 1 ||
+                nascimento.getDate() !== dia
+            ) {
+                return false;
+            }
+
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+
+            // Impede datas futuras.
+            if (nascimento > hoje) return false;
+
+            // Impede datas com mais de 120 anos.
+            const limiteMinimo = new Date(
+                hoje.getFullYear() - 120,
+                hoje.getMonth(),
+                hoje.getDate()
+            );
+
+            if (nascimento < limiteMinimo) return false;
+
+            return true;
+        }
+
         if (!validarNome(nomeInput.value)) {
-            criarErro(nomeInput, "Digite nome e sobrenome válido.");
+            criarErro(nomeInput, "Digite nome e sobrenome usando apenas letras.");
             valido = false;
         }
 
-        if (!dataInput.value || dataInput.value.length < 10) {
-            criarErro(dataInput, "Informe a data de nascimento completa.");
+        if (!dataInput.value) {
+            criarErro(dataInput, "Informe a data de nascimento.");
+            valido = false;
+        } else if (!validarDataNascimento(dataInput.value)) {
+            criarErro(dataInput, "Informe uma data válida, entre 120 anos atrás e hoje.");
             valido = false;
         }
 
+        // Mantém apenas a verificação de que pelo menos um sintoma foi selecionado.
         if (sintomasInput.value.trim() === "") {
             criarErro(sintomasInput, "Selecione pelo menos um sintoma.");
             valido = false;
