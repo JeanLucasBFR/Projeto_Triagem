@@ -527,6 +527,12 @@ textarea:focus {
     font-weight: bold;
 }
 
+.icone-campo {
+    font-size: 1.4em;
+    vertical-align: -2px;
+    margin-right: 4px;
+}
+
 /* ========================================== */
 /* RESPONSIVIDADE */
 /* ========================================== */
